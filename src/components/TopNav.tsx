@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
-import { Shield, Wallet, Rocket, type LucideIcon } from 'lucide-react';
+import { Shield, Wallet, Rocket, CreditCard, type LucideIcon } from 'lucide-react';
 
 interface TabItem {
-  id: 'main' | 'missions';
+  id: 'main' | 'missions' | 'payments';
   label: string;
   icon: LucideIcon;
 }
@@ -10,11 +10,12 @@ interface TabItem {
 const TABS: TabItem[] = [
   { id: 'main', label: 'Main Wallet', icon: Wallet },
   { id: 'missions', label: 'Missions', icon: Rocket },
+  { id: 'payments', label: 'Payments & Security', icon: CreditCard },
 ];
 
 interface Props {
-  active: 'main' | 'missions';
-  onNavigate: (id: 'main' | 'missions') => void;
+  active: 'main' | 'missions' | 'payments';
+  onNavigate: (id: 'main' | 'missions' | 'payments') => void;
   walletStatus: 'empty' | 'active' | 'frozen' | 'nuked';
 }
 

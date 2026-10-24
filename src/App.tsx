@@ -8,12 +8,13 @@ import { MissionWallet } from '@/components/MissionWallet';
 import { SecurityEngine } from '@/components/SecurityEngine';
 import { LiveTerminal } from '@/components/LiveTerminal';
 import { DemoControls } from '@/components/DemoControls';
+import { PaymentsView } from '@/components/PaymentsView';
 import { Modals } from '@/components/Modals';
 import { VerificationPrompt } from '@/components/VerificationPrompt'; // ✅ Imported Prompt
 
 function Dashboard() {
   const { state } = useAegis();
-  const [tab, setTab] = useState<'main' | 'missions'>('main');
+  const [tab, setTab] = useState<'main' | 'missions' | 'payments'>('main');
   const [modal, setModal] = useState<'policies' | 'audit' | null>(null);
 
   return (
@@ -39,6 +40,16 @@ function Dashboard() {
                 transition={{ duration: 0.3 }}
               >
                 <MainWallet />
+              </motion.div>
+            ) : tab === 'payments' ? (
+              <motion.div
+                key="payments"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3 }}
+              >
+                <PaymentsView />
               </motion.div>
             ) : (
               <motion.div
