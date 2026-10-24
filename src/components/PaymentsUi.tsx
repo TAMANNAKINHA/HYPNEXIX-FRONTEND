@@ -15,6 +15,7 @@ const STATUS_STYLE: Record<string, string> = {
   REVOCATION_PENDING: 'bg-warning/15 text-warning ring-warning/30',
   DISABLED: 'bg-error/15 text-error ring-error/30',
   ERROR: 'bg-error/15 text-error ring-error/30',
+  UNKNOWN: 'bg-white/10 text-ink-dim ring-white/20',
 };
 
 export function StatusBadge({ status }: { status: PaymentStatus | AgentStatus }) {
@@ -86,4 +87,4 @@ export function ConfirmDialog(props: {
 export const inputCls =
   'w-full rounded-lg border border-gold/20 bg-bg px-3 py-2 text-[13px] text-white placeholder:text-ink-faint focus:border-gold/60 focus:outline-none';
 export const labelCls = 'mb-1 block text-[11px] font-medium uppercase tracking-wide text-ink-faint';
-export const shortHash = (h: string) => `${h.slice(0, 10)}…${h.slice(-6)}`;
+export { shortHash } from '../services/paymentLogic';

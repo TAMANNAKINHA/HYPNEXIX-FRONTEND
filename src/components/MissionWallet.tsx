@@ -481,7 +481,7 @@ function MissionDetail({
       </div>
 
       {/* Merchant & Budget */}
-      <div className="mt-6 grid grid-cols-2 gap-4">
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
         <Detail label="Target Merchant" value={mission.merchant} />
         <div className="rounded-xl border-2 border-gold/60 bg-gold/10 p-4 shadow-[0_0_25px_rgba(212,175,55,0.15)] relative overflow-hidden transition-all hover:border-gold">
           <div className="absolute top-0 right-0 bg-gold text-black text-[9px] font-black px-2.5 py-1 rounded-bl-lg uppercase tracking-widest">
@@ -519,7 +519,7 @@ function MissionDetail({
           </div>
           <div className="text-right flex flex-col items-end">
             <div className="text-[10px] uppercase tracking-widest text-ink-faint font-bold mb-1.5">Approved Vendors</div>
-            <div className="flex flex-wrap justify-end gap-1.5 max-w-[180px]">
+            <div className="flex flex-wrap justify-end gap-1.5 max-w-[180px] sm:max-w-[180px]">
               {policy.allowedVendors?.length ? (
                 policy.allowedVendors.map((v: string) => (
                   <span
@@ -538,7 +538,7 @@ function MissionDetail({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div className="rounded-xl border border-warning/20 bg-warning/5 p-3.5 flex items-center gap-3">
             <div className="h-8 w-8 rounded-full bg-warning/10 flex items-center justify-center border border-warning/20 text-warning">
               <Clock className="h-4 w-4" />

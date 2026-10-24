@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Send, Sparkles } from 'lucide-react';
 import { useAegis, useOrchestrator } from '@/orchestrator';
 import type { ChatMessage } from '@/types';
+import { MissionForm } from './MissionForm';
 
 const SUGGESTED_PROMPTS = [
   'Buy AWS Server for ₹45,000',
@@ -76,6 +77,8 @@ export function MissionConsole() {
           ))}
         </AnimatePresence>
       </div>
+
+      <MissionForm onCreate={handleSend} disabled={isProcessing} />
 
       <div className="flex flex-wrap gap-2 px-5 pb-3">
         {SUGGESTED_PROMPTS.map((p) => (

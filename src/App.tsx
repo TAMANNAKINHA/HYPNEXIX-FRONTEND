@@ -82,7 +82,7 @@ function MissionsView({
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
       <div className="lg:col-span-4 xl:col-span-3">
-        <div className="h-[calc(100vh-7rem)] overflow-hidden rounded-2xl border border-gold/15 bg-bg-secondary/60 backdrop-blur-xl">
+        <div className="h-[70vh] overflow-hidden lg:h-[calc(100vh-7rem)] rounded-2xl border border-gold/15 bg-bg-secondary/60 backdrop-blur-xl">
           <MissionConsole />
         </div>
       </div>

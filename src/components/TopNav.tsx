@@ -39,8 +39,8 @@ export function TopNav({ active, onNavigate, walletStatus }: Props) {
           : 'text-ink-faint';
 
   return (
-    <header className="sticky top-0 z-50 h-16 border-b border-gold/20 bg-bg-secondary/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-full max-w-[1800px] items-center justify-between px-6">
+    <header className="sticky top-0 z-50 border-b border-gold/20 bg-bg-secondary/80 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-[1800px] flex-wrap items-center justify-between gap-x-3 gap-y-1 px-3 py-2 sm:px-6 md:h-16 md:flex-nowrap md:py-0">
         <div className="flex items-center gap-3">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -50,7 +50,7 @@ export function TopNav({ active, onNavigate, walletStatus }: Props) {
           >
             <Shield className="h-5 w-5 text-bg" strokeWidth={2.5} />
           </motion.div>
-          <div className="leading-none">
+          <div className="hidden leading-none sm:block">
             <div className="text-[15px] font-bold tracking-[0.2em] text-white">
               AEGIS
             </div>
@@ -60,7 +60,7 @@ export function TopNav({ active, onNavigate, walletStatus }: Props) {
           </div>
         </div>
 
-        <nav className="flex items-center gap-1">
+        <nav className="order-last flex w-full items-center gap-1 overflow-x-auto md:order-none md:w-auto md:overflow-visible">
           {TABS.map((tab) => {
             const Icon = tab.icon;
             const isActive = active === tab.id;
@@ -68,7 +68,7 @@ export function TopNav({ active, onNavigate, walletStatus }: Props) {
               <button
                 key={tab.id}
                 onClick={() => onNavigate(tab.id)}
-                className={`relative flex items-center gap-2 rounded-lg px-5 py-2 text-[13px] font-medium transition-colors ${
+                className={`relative flex shrink-0 items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-[13px] md:px-5 font-medium transition-colors ${
                   isActive ? 'text-white' : 'text-ink-dim hover:text-white'
                 }`}
               >
@@ -86,7 +86,7 @@ export function TopNav({ active, onNavigate, walletStatus }: Props) {
           })}
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <div className="hidden items-center gap-2 lg:flex">
             <div className="flex items-center gap-2 rounded-full border border-gold/20 bg-bg-card/60 px-3 py-1.5">
               <div
@@ -102,7 +102,7 @@ export function TopNav({ active, onNavigate, walletStatus }: Props) {
             {/* Trust badge removed */}
           </div>
           <div className="flex items-center gap-2.5">
-            <div className="text-right leading-none">
+            <div className="hidden text-right leading-none md:block">
               <div className="text-[12px] font-semibold text-white">R. Sharma</div>
               <div className="mt-0.5 text-[10px] text-ink-faint">CFO · Apex Labs</div>
             </div>

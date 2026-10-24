@@ -1,4 +1,4 @@
-// Shapes of the Person 2 backend API. Agree on these with Person 2 before changing.
+// Shapes returned by Person 2's backend (see backend API_CONTRACT.md). Timestamps are ISO strings.
 export type PaymentStatus =
   | 'PENDING' | 'APPROVED' | 'SUBMITTED' | 'CONFIRMED'
   | 'REJECTED' | 'FROZEN' | 'EXPIRED' | 'FAILED';
@@ -8,65 +8,83 @@ export const ALL_PAYMENT_STATUSES: PaymentStatus[] = [
 ];
 
 export interface PaymentEvent {
-  status: PaymentStatus;
+  from: PaymentStatus | null;
+  to: PaymentStatus;
   actor: string;
-  timestamp: number;
+  at: string;
   reason?: string;
 }
 
 export interface Payment {
   id: string;
-  requestId: string;          // idempotency key
+  requestId: string;
+  idempotencyKey: string;
   missionId: string;
   recipient: string;
-  amount: string;             // string on purpose: never do money math in floats
-  asset: string;
+  amount: string; // decimal string, never a float
+  chainId: number;
+  expiresAt: string;
   status: PaymentStatus;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
+  actor: string;
+  agentId?: string;
   txHash?: string;
-  explorerUrl?: string;       // only present when backend has a verified network config
-  reason?: string;            // approval / rejection / failure reason
-  duplicateWarning?: string;  // set by backend when it suspects a duplicate
-  history?: PaymentEvent[];
+  failureReason?: string; // also used by the backend for approval/rejection reasons
+  events: PaymentEvent[];
+  approval?: { actor: string; at: string; detailsHash: string; usedAt?: string };
+}
+
+export interface PaymentProposal {
+  missionId: string;
+  recipient: string;
+  amount: string;
+  chainId: number;
+  expiresAt: string;
+  requestId: string;
+  idempotencyKey: string;
+  agentId: string;
 }
 
 export interface SimulationResult {
   simulationId: string;
+  preview: boolean;
   canProceed: boolean;
-  estimatedFee: string;
-  remainingBudgetAfterPayment: string;
+  estimatedFee: string | null;
+  remainingBudgetAfterPayment: string | null;
   warnings: string[];
   violations: string[];
-  broadcasted: boolean;       // must always be false
+  broadcasted: boolean;
 }
 
-export interface SimulateRequest {
-  missionId: string;
-  recipient: string;
-  amount: string;
-}
-
-export interface SubmitPaymentRequest extends SimulateRequest {
-  requestId: string;          // idempotency key; reuse it on retry
-  simulationId?: string;
-}
-
-export interface SubmitPaymentResponse {
+export interface CreatePaymentResult {
   payment: Payment;
-  duplicate: boolean;         // true if backend returned an existing payment
-  duplicateWarning?: string;
+  duplicate: boolean;
+  warnings?: string[];
+  detailsHash?: string;
 }
 
-export type AgentStatus = 'ACTIVE' | 'REVOCATION_PENDING' | 'DISABLED' | 'ERROR';
+// UI badge states for agents. The backend only reports active/disabled.
+export type AgentStatus = 'ACTIVE' | 'REVOCATION_PENDING' | 'DISABLED' | 'ERROR' | 'UNKNOWN';
 
-export interface Agent {
+export interface AgentSummary {
   agentId: string;
-  name: string;
-  missionIds: string[];       // mission wallets this agent can spend from
-  status: AgentStatus;
-  inFlightTxHashes: string[]; // already submitted, may still confirm
-  revocationTxHash?: string;
-  lastError?: string;
-  updatedAt: number;
+  // 'unknown' = built from the payment list; the backend has no agent-list route yet, so status is only known after "Check status".
+  backendStatus: 'active' | 'disabled' | 'unknown';
+  paymentCount: number;
 }
+
+export interface KillResult {
+  agentId: string;
+  backendStatus: 'active' | 'disabled';
+  onChainRevocation: { status: string; reason?: string };
+  inFlight: { paymentId: string; transactionHash?: string; status: PaymentStatus }[];
+}
+
+export interface AgentStatusResult {
+  agentId: string;
+  backendStatus: 'active' | 'disabled';
+  onChainRevocation: { status: string; reason?: string };
+}
+
+export type PaymentAction = 'approve' | 'reject' | 'freeze' | 'unfreeze' | 'execute' | 'reconcile';
